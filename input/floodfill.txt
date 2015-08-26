@@ -1,0 +1,11 @@
+9 9
+aaaaaaaaa
+aaadefaaa
+abcdafgha
+abcdafgha
+abcdafgha
+abcdafgha
+aacdafgaa
+aaadafaaa
+aaaaaaaaa
+8 3 ,
