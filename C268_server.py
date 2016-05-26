@@ -50,6 +50,16 @@ class Server(object):
         elif command == 'LIST':
             print('Received LIST command')
             self._send_msg('\n'.join(sorted(self.clients.keys())), conn)
+        elif command == 'BROADCAST':
+            message = args[1]
+            print('BROADCASTING "{}"'.format(message))
+            for conn in self.clients.values():
+                self._send_msg(args[1], conn)
+        elif command == 'RELAY':
+            recipient = self.clients.get(args[1])
+            message = args[2]
+            print('RELAY "{}" to {}'.format(message, args[1]))
+            self._send_msg(message, recipient)
         else:
             print('Unknown command: {}'.format(command))
 

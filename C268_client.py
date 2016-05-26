@@ -21,9 +21,6 @@ class Client(object):
         self._send_msg('IDENTIFY\t' + self.name)
         threading.Thread(target=self._listen).start()
 
-    def list_clients(self):
-        self._send_msg('LIST')
-
     def _listen(self):
         data = b''
         while True:
@@ -34,8 +31,20 @@ class Client(object):
                 data = data[index+1:]
                 print(msg)
 
+    # Commands
+    def list_clients(self):
+        self._send_msg('LIST')
+
+    def broadcast(self, message):
+        self._send_msg('BROADCAST\t' + message)
+
+    def relay(self, who, message):
+        self._send_msg('RELAY\t{}\t{}'.format(who, message))
 
 if __name__ == '__main__':
     client = Client(sys.argv[1])
     client.connect()
     client.list_clients()
+    client.broadcast('Hello, world!')
+    if len(sys.argv) > 2:
+        client.relay(sys.argv[2], "Wassap")
