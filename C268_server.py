@@ -29,15 +29,16 @@ class Server(object):
         conn.send((msg+'\0').encode())
 
     def handle_connection(self, conn):
-        while True:
-            try:
-                self.buf += conn.recv(4096)
-                while b'\0' in self.buf:
-                    data = self.buf[:self.buf.index(b'\0')].decode()
-                    self.parse_command(data, conn)
-                    self.buf = self.buf[self.buf.index(b'\0')+1:]
-            except ConnectionError:
-                break
+        with conn:
+            while True:
+                try:
+                    self.buf += conn.recv(4096)
+                    while b'\0' in self.buf:
+                        data = self.buf[:self.buf.index(b'\0')].decode()
+                        self.parse_command(data, conn)
+                        self.buf = self.buf[self.buf.index(b'\0')+1:]
+                except ConnectionError:
+                    break
 
     def parse_command(self, data, conn):
         args = data.split('\t')
@@ -53,14 +54,15 @@ class Server(object):
             print('Unknown command: {}'.format(command))
 
     def serve(self):
-        self.sock.bind((self.HOST, self.PORT))
-        self.sock.listen()
-        print('Server started')
-        t = threading.Thread(target=self.heartbeat)
-        t.start()
-        while True:
-            conn, address = self.sock.accept()
-            threading.Thread(target=self.handle_connection, args=[conn]).start()
+        with self.sock:
+            self.sock.bind((self.HOST, self.PORT))
+            self.sock.listen()
+            print('Server started')
+            t = threading.Thread(target=self.heartbeat)
+            t.start()
+            while True:
+                conn, address = self.sock.accept()
+                threading.Thread(target=self.handle_connection, args=[conn]).start()
 
 
 if __name__ == '__main__':
