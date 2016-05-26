@@ -72,14 +72,14 @@ def detect_boxes_superduper(text):
             if char == '+' and col not in box_ranges[row]:
                 # New box!
                 x, y = row, col
-                new_box = []
-                while (x, y) not in new_box:
-                    new_box.append((x, y))
+                box = []
+                while (x, y) not in box:
+                    box.append((x, y))
                     for d in directions:
                         dx, dy = d
                         try:
                             if text[x + dx][y + dy] in '+-|' \
-                                    and (x + dx, y + dy) not in new_box \
+                                    and (x + dx, y + dy) not in box \
                                     and x + dx >= 0 and y + dy >= 0:
                                 x += dx
                                 y += dy
@@ -88,9 +88,9 @@ def detect_boxes_superduper(text):
                             pass
                 # Add new box
                 new_box_dict = {}
-                for new_row in set([x for x, _ in new_box]):
+                for new_row in set([x for x, _ in box]):
                     affected_columns = sorted(
-                        [y for x, y in new_box if x == new_row])
+                        [y for x, y in box if x == new_row])
                     new_box_dict[new_row] = affected_columns
                     # Ecch, maybe another time.
 

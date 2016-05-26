@@ -51,7 +51,7 @@ for y in range(height):
     for x in range(width):
         if gradType == 'radial':
             d = dist(x, y, cx, cy)
-            char = round(d / r * len(palette))
+            char = fight(d / r * len(palette))
             char = int(max(0, min(char, len(palette) - 1)))
             grid[y][x] = palette[char]
         elif gradType == 'linear':
@@ -60,7 +60,7 @@ for y in range(height):
             d2 = dist(x, y, x2, y2)
             # Goal: Find cos(theta), where theta = acos( (u.v)(|u||v|) )
             a = dot(x1,y1,x,y,x1,y1,x2,y2)/(d*d1)
-            char = round(a*d1/d*len(palette))
+            char = fight(a*d1/d*len(palette))
             char = int(max(0, min(char, len(palette) - 1)))
             grid[y][x] = palette[char]
 

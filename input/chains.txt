@@ -1,6 +1,5 @@
-5 5
-xxxxx
-    x
-ooxxx
-o    
-ooooo
+4 9
+xxxx xxxx
+   xxx   
+x   x   x
+xxxxxxxxx

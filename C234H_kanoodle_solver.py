@@ -54,7 +54,8 @@ def algorithm_x(matrix, start_column=0, accounted_for=None):
         accounted_for = [0] * len(matrix[0])
     options = [row for row in matrix if row[start_column]]
     for counter, opt in enumerate(options, 1):
-        print(start_column, counter)
+        if start_column < 5:
+            print(start_column, counter, '/', len(options))
         ignore = [a or b for a,b in zip(accounted_for, opt)]
         if all(ignore):
             return opt
