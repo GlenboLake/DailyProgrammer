@@ -3,6 +3,12 @@ import threading
 
 import time
 
+class _ClientMetadata(object):
+    def __init__(self, name):
+        self.name = name
+        self.ready = False
+        self.cards = []
+
 
 class Server(object):
     HOST = ''
