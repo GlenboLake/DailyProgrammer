@@ -4,6 +4,7 @@ fractions = []
 for line in open('input/fractions.txt').read().splitlines():
     fractions.append(list(map(int, line.split('/'))))
 
+
 def add_fractions(a, b):
     total = (a[0] * b[1] + b[0] * a[1], a[1] * b[1])
     # Reduce
@@ -16,7 +17,10 @@ def add_fractions(a, b):
             factor += 1
     return tuple(map(int, total))
 
+
 total = (0, 1)
 for fraction in fractions:
     total = add_fractions(total, fraction)
 print('{}/{}'.format(*total))
+
+print(add_fractions([1, 6], [3, 10]))
